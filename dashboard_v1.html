@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meridian Analytics — Q4 FY2025 Financial Dashboard</title>
+
+  <style>
+    /* ------------------------------------------------------------------ */
+    /* Base reset and body                                                  */
+    /* ------------------------------------------------------------------ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f0f2f5;
+      color: #1a1a2e;
+      padding: 32px;
+      min-height: 100vh;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Outermost page wrapper                                               */
+    /* ------------------------------------------------------------------ */
+    .dashboard-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Dashboard header section — company name, subtitle, timestamp        */
+    /* ------------------------------------------------------------------ */
+    .dashboard-header {
+      background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+      border-radius: 12px;
+      padding: 28px 36px;
+      margin-bottom: 28px;
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .company-name {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .company-tagline {
+      font-size: 13px;
+      color: #a8b8d8;
+      margin-top: 4px;
+    }
+
+    .report-meta {
+      text-align: right;
+    }
+
+    .report-period {
+      font-size: 15px;
+      font-weight: 600;
+      color: #e2e8f4;
+    }
+
+    .report-generated {
+      font-size: 12px;
+      color: #a8b8d8;
+      margin-top: 4px;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* KPI summary cards row above the main table                          */
+    /* ------------------------------------------------------------------ */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .kpi-card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 20px 22px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    }
+
+    .kpi-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #6b7a99;
+    }
+
+    .kpi-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #0f3460;
+      margin-top: 6px;
+    }
+
+    .kpi-delta {
+      font-size: 12px;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .kpi-delta.positive { color: #22c55e; }
+    .kpi-delta.negative { color: #ef4444; }
+
+    /* ------------------------------------------------------------------ */
+    /* Main revenue table card                                              */
+    /* ------------------------------------------------------------------ */
+    .table-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+
+    .table-card-header {
+      padding: 20px 28px;
+      border-bottom: 1px solid #e8edf5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f3460;
+    }
+
+    .table-subtitle {
+      font-size: 12px;
+      color: #6b7a99;
+      margin-top: 2px;
+    }
+
+    .table-badge {
+      background: #e8f0fe;
+      color: #0f3460;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* The revenue data table itself                                        */
+    /* ------------------------------------------------------------------ */
+    .revenue-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    /* Column header row */
+    .revenue-table thead tr {
+      background-color: #f7f9fc;
+    }
+
+    .revenue-table th {
+      padding: 13px 20px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: #6b7a99;
+      border-bottom: 2px solid #e8edf5;
+    }
+
+    /* Right-align all numeric columns */
+    .revenue-table th.numeric,
+    .revenue-table td.numeric {
+      text-align: right;
+    }
+
+    /* Data rows */
+    .revenue-table tbody tr {
+      border-bottom: 1px solid #f0f3f8;
+      transition: background-color 0.15s ease;
+    }
+
+    .revenue-table tbody tr:hover {
+      background-color: #f7f9fc;
+    }
+
+    /* Zebra striping for readability */
+    .revenue-table tbody tr:nth-child(even) {
+      background-color: #fafbfd;
+    }
+
+    .revenue-table td {
+      padding: 14px 20px;
+      color: #2d3a55;
+    }
+
+    /* The segment name cell gets slightly bolder treatment */
+    .revenue-table td.segment-name {
+      font-weight: 600;
+      color: #0f3460;
+    }
+
+    /* Quarterly revenue cells — these are the primary extraction targets */
+    .revenue-table td.q1-revenue,
+    .revenue-table td.q2-revenue,
+    .revenue-table td.q3-revenue,
+    .revenue-table td.q4-revenue {
+      font-variant-numeric: tabular-nums;
+      font-weight: 500;
+    }
+
+    /* Profit margin cells get colour-coded */
+    .revenue-table td.profit-margin {
+      font-weight: 600;
+    }
+
+    .margin-high  { color: #16a34a; }
+    .margin-mid   { color: #ca8a04; }
+    .margin-low   { color: #dc2626; }
+
+    /* YoY growth column */
+    .revenue-table td.yoy-growth {
+      font-weight: 600;
+    }
+
+    .growth-positive { color: #16a34a; }
+    .growth-negative { color: #dc2626; }
+
+    /* Totals row at the bottom of tbody */
+    .revenue-table tr.totals-row td {
+      background-color: #f0f4fb;
+      font-weight: 700;
+      color: #0f3460;
+      border-top: 2px solid #d0daed;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Footer note                                                          */
+    /* ------------------------------------------------------------------ */
+    .dashboard-footer {
+      font-size: 11px;
+      color: #9aaac4;
+      text-align: center;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-wrapper">
+
+    <!-- ================================================================ -->
+    <!-- Header: company identity + report period                          -->
+    <!-- ================================================================ -->
+    <header class="dashboard-header">
+      <div>
+        <div class="company-name">Meridian Analytics Inc.</div>
+        <div class="company-tagline">Enterprise Intelligence &amp; Data Solutions</div>
+      </div>
+      <div class="report-meta">
+        <div class="report-period">FY2025 — Full Year Financial Report</div>
+        <div class="report-generated">Generated: 28 April 2026 &nbsp;|&nbsp; Confidential</div>
+      </div>
+    </header>
+
+    <!-- ================================================================ -->
+    <!-- KPI summary cards                                                 -->
+    <!-- ================================================================ -->
+    <section class="kpi-row" aria-label="Key Performance Indicators">
+
+      <div class="kpi-card">
+        <div class="kpi-label">Total Annual Revenue</div>
+        <div class="kpi-value">$48.7M</div>
+        <div class="kpi-delta positive">+14.2% vs FY2024</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label">Blended Profit Margin</div>
+        <div class="kpi-value">31.4%</div>
+        <div class="kpi-delta positive">+3.1 pp vs FY2024</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label">Q4 Revenue</div>
+        <div class="kpi-value">$14.1M</div>
+        <div class="kpi-delta positive">+8.7% vs Q3</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label">Active Business Segments</div>
+        <div class="kpi-value">5</div>
+        <div class="kpi-delta positive">+1 new segment</div>
+      </div>
+
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- Main revenue breakdown table                                      -->
+    <!-- ================================================================ -->
+    <div class="table-card">
+      <div class="table-card-header">
+        <div>
+          <div class="table-title">Quarterly Revenue by Business Segment</div>
+          <div class="table-subtitle">All figures in USD millions (M) unless otherwise stated</div>
+        </div>
+        <span class="table-badge">FY2025</span>
+      </div>
+
+      <!--
+        This <table> is the primary data structure the MCoA agent must locate.
+        Semantic elements and class names here are intentionally descriptive so
+        that a BeautifulSoup scraper using CSS selectors works perfectly on v1
+        but completely fails on v2 (where these names are obfuscated).
+      -->
+      <table class="revenue-table" aria-label="FY2025 Revenue Table">
+
+        <thead>
+          <tr>
+            <th>Business Segment</th>
+            <th class="numeric">Q1 Revenue</th>
+            <th class="numeric">Q2 Revenue</th>
+            <th class="numeric">Q3 Revenue</th>
+            <th class="numeric">Q4 Revenue</th>
+            <th class="numeric">Annual Total</th>
+            <th class="numeric">Profit Margin</th>
+            <th class="numeric">YoY Growth</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <!-- Row 1 — Cloud Platform Services -->
+          <tr>
+            <td class="segment-name">Cloud Platform Services</td>
+            <td class="numeric q1-revenue">$4.20M</td>
+            <td class="numeric q2-revenue">$4.85M</td>
+            <td class="numeric q3-revenue">$5.10M</td>
+            <td class="numeric q4-revenue">$5.60M</td>
+            <td class="numeric">$19.75M</td>
+            <td class="numeric profit-margin margin-high">38.2%</td>
+            <td class="numeric yoy-growth growth-positive">+22.4%</td>
+          </tr>
+
+          <!-- Row 2 — Enterprise Consulting -->
+          <tr>
+            <td class="segment-name">Enterprise Consulting</td>
+            <td class="numeric q1-revenue">$2.30M</td>
+            <td class="numeric q2-revenue">$2.55M</td>
+            <td class="numeric q3-revenue">$2.40M</td>
+            <td class="numeric q4-revenue">$2.75M</td>
+            <td class="numeric">$10.00M</td>
+            <td class="numeric profit-margin margin-mid">27.5%</td>
+            <td class="numeric yoy-growth growth-positive">+9.8%</td>
+          </tr>
+
+          <!-- Row 3 — Data Licensing -->
+          <tr>
+            <td class="segment-name">Data Licensing</td>
+            <td class="numeric q1-revenue">$1.50M</td>
+            <td class="numeric q2-revenue">$1.70M</td>
+            <td class="numeric q3-revenue">$1.65M</td>
+            <td class="numeric q4-revenue">$1.90M</td>
+            <td class="numeric">$6.75M</td>
+            <td class="numeric profit-margin margin-high">44.1%</td>
+            <td class="numeric yoy-growth growth-positive">+5.3%</td>
+          </tr>
+
+          <!-- Row 4 — Managed Security -->
+          <tr>
+            <td class="segment-name">Managed Security</td>
+            <td class="numeric q1-revenue">$1.10M</td>
+            <td class="numeric q2-revenue">$1.25M</td>
+            <td class="numeric q3-revenue">$1.35M</td>
+            <td class="numeric q4-revenue">$1.55M</td>
+            <td class="numeric">$5.25M</td>
+            <td class="numeric profit-margin margin-mid">29.3%</td>
+            <td class="numeric yoy-growth growth-positive">+18.6%</td>
+          </tr>
+
+          <!-- Row 5 — AI Solutions (new segment) -->
+          <tr>
+            <td class="segment-name">AI Solutions <em style="font-size:11px;color:#6b7a99;">(new)</em></td>
+            <td class="numeric q1-revenue">$0.80M</td>
+            <td class="numeric q2-revenue">$1.40M</td>
+            <td class="numeric q3-revenue">$2.25M</td>
+            <td class="numeric q4-revenue">$2.50M</td>
+            <td class="numeric">$6.95M</td>
+            <td class="numeric profit-margin margin-low">18.7%</td>
+            <td class="numeric yoy-growth growth-positive">+210.0%</td>
+          </tr>
+
+          <!-- Totals row -->
+          <tr class="totals-row">
+            <td class="segment-name">TOTAL</td>
+            <td class="numeric q1-revenue">$9.90M</td>
+            <td class="numeric q2-revenue">$11.75M</td>
+            <td class="numeric q3-revenue">$12.75M</td>
+            <td class="numeric q4-revenue">$14.30M</td>
+            <td class="numeric">$48.70M</td>
+            <td class="numeric profit-margin margin-mid">31.4%</td>
+            <td class="numeric yoy-growth growth-positive">+14.2%</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div><!-- /.table-card -->
+
+    <!-- ================================================================ -->
+    <!-- Footer                                                            -->
+    <!-- ================================================================ -->
+    <footer class="dashboard-footer">
+      Meridian Analytics Inc. &nbsp;&bull;&nbsp;
+      Internal Use Only — Do Not Distribute &nbsp;&bull;&nbsp;
+      Fiscal Year ends 31 December &nbsp;&bull;&nbsp;
+      All figures are unaudited estimates
+    </footer>
+
+  </div><!-- /.dashboard-wrapper -->
+</body>
+</html>

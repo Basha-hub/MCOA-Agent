@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--
+    dashboard_v2.html — OBFUSCATED VERSION
+    ===============================================================
+    This file renders identically to dashboard_v1.html in any browser.
+    Everything a human sees is unchanged: the company name, the table
+    layout, all the numbers, the colours, the spacing.
+
+    What IS changed (adversarial obfuscation):
+      1. All CSS class names are replaced with randomised, meaningless
+         strings (e.g. ".revenue-table" → ".xk7f2", ".q3-revenue" → ".r9mw_c").
+      2. The <table>/<thead>/<tbody>/<th>/<td> semantic elements are
+         replaced with generic <div> and <span> elements that are styled
+         via CSS to look identical (display:grid, display:flex).
+      3. The logical document hierarchy is scrambled — wrapper divs are
+         nested in non-obvious orders.
+      4. Styles that were previously in named CSS classes are inlined
+         directly on elements where possible.
+      5. No aria-labels, no meaningful id attributes.
+
+    A BeautifulSoup scraper using selectors like
+        soup.find("table", class_="revenue-table")
+        soup.find("td", class_="q3-revenue")
+    will return None for every query and extract nothing.
+
+    A visual agent looking at a screenshot sees exactly the same
+    dashboard as v1 and can locate and extract any data point.
+  -->
+  <title>Meridian Analytics — Q4 FY2025 Financial Dashboard</title>
+
+  <style>
+    /* Base reset — identical behaviour to v1 */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f0f2f5;
+      color: #1a1a2e;
+      padding: 32px;
+      min-height: 100vh;
+    }
+
+    /* Obfuscated class: was .dashboard-wrapper */
+    .p2_xwrp {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Obfuscated class: was .dashboard-header */
+    .hdr_blk9 {
+      background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+      border-radius: 12px;
+      padding: 28px 36px;
+      margin-bottom: 28px;
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Obfuscated class: was .company-name */
+    .zz_cn_lbl {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* Obfuscated class: was .company-tagline */
+    .zz_ct_sub {
+      font-size: 13px;
+      color: #a8b8d8;
+      margin-top: 4px;
+    }
+
+    /* Obfuscated class: was .report-meta */
+    .rmeta_k2 {
+      text-align: right;
+    }
+
+    /* Obfuscated class: was .report-period */
+    .rmeta_k2 .p9q_lbl {
+      font-size: 15px;
+      font-weight: 600;
+      color: #e2e8f4;
+    }
+
+    /* Obfuscated class: was .report-generated */
+    .rmeta_k2 .p9q_sub {
+      font-size: 12px;
+      color: #a8b8d8;
+      margin-top: 4px;
+    }
+
+    /* Obfuscated class: was .kpi-row */
+    .g4_krow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    /* Obfuscated class: was .kpi-card */
+    .g4_kcrd {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 20px 22px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    }
+
+    /* Obfuscated class: was .kpi-label */
+    .g4_kcrd .lx_hd {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #6b7a99;
+    }
+
+    /* Obfuscated class: was .kpi-value */
+    .g4_kcrd .lx_vl {
+      font-size: 24px;
+      font-weight: 700;
+      color: #0f3460;
+      margin-top: 6px;
+    }
+
+    /* Obfuscated class: was .kpi-delta */
+    .g4_kcrd .lx_dt {
+      font-size: 12px;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .lx_dt.u7pos { color: #22c55e; }
+    .lx_dt.u7neg { color: #ef4444; }
+
+    /* Obfuscated class: was .table-card */
+    .tc_outer_xf {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+
+    /* Obfuscated class: was .table-card-header */
+    .tc_topbar {
+      padding: 20px 28px;
+      border-bottom: 1px solid #e8edf5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Obfuscated class: was .table-title */
+    .tc_topbar .n8_ttl {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f3460;
+    }
+
+    /* Obfuscated class: was .table-subtitle */
+    .tc_topbar .n8_sub {
+      font-size: 12px;
+      color: #6b7a99;
+      margin-top: 2px;
+    }
+
+    /* Obfuscated class: was .table-badge */
+    .tc_topbar .n8_bdg {
+      background: #e8f0fe;
+      color: #0f3460;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /*
+      The actual "table" is now built from divs with CSS grid.
+      A BeautifulSoup call for soup.find("table") returns None.
+      Visually the grid of divs is indistinguishable from a <table>.
+    */
+
+    /* Outer grid container — was <table class="revenue-table"> */
+    .xk7f2 {
+      width: 100%;
+      display: grid;
+      /* 8 columns: segment name + 4 quarters + annual + margin + growth */
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      font-size: 14px;
+    }
+
+    /* Header row cells — was <th> */
+    .xk7f2 .a9z_th {
+      padding: 13px 20px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: #6b7a99;
+      border-bottom: 2px solid #e8edf5;
+      background-color: #f7f9fc;
+    }
+
+    /* Right-align numeric header cells */
+    .xk7f2 .a9z_th.b2nr { text-align: right; }
+
+    /* Data row wrapper — was <tr> */
+    .xk7f2 .qr_drow {
+      display: contents; /* lets children participate directly in parent grid */
+    }
+
+    /* Zebra stripe: every other logical row (pairs of 8 cells) */
+    .xk7f2 .qr_drow.ev_stripe > .f3_td {
+      background-color: #fafbfd;
+    }
+
+    .xk7f2 .qr_drow > .f3_td:hover {
+      background-color: #f7f9fc;
+    }
+
+    /* Standard data cell — was <td> */
+    .f3_td {
+      padding: 14px 20px;
+      color: #2d3a55;
+      border-bottom: 1px solid #f0f3f8;
+    }
+
+    /* Right-aligned numeric cell */
+    .f3_td.b2nr {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      font-weight: 500;
+    }
+
+    /* Segment name cell — was <td class="segment-name"> */
+    .f3_td.w1_sn {
+      font-weight: 600;
+      color: #0f3460;
+    }
+
+    /* Q1 revenue cell — was <td class="q1-revenue">  → now .r9mw_a */
+    .r9mw_a {}
+
+    /* Q2 revenue cell — was <td class="q2-revenue">  → now .r9mw_b */
+    .r9mw_b {}
+
+    /* Q3 revenue cell — was <td class="q3-revenue">  → now .r9mw_c */
+    .r9mw_c {}
+
+    /* Q4 revenue cell — was <td class="q4-revenue">  → now .r9mw_d */
+    .r9mw_d {}
+
+    /* Profit margin colouring — was .margin-high / .margin-mid / .margin-low */
+    .m_j9h  { color: #16a34a; font-weight: 600; }
+    .m_j9m  { color: #ca8a04; font-weight: 600; }
+    .m_j9l  { color: #dc2626; font-weight: 600; }
+
+    /* YoY growth colouring — was .growth-positive / .growth-negative */
+    .yw_gp  { color: #16a34a; font-weight: 600; }
+    .yw_gn  { color: #dc2626; font-weight: 600; }
+
+    /* Totals row cells — was <tr class="totals-row"> */
+    .f3_td.tot_r {
+      background-color: #f0f4fb;
+      font-weight: 700;
+      color: #0f3460;
+      border-top: 2px solid #d0daed;
+    }
+
+    /* Footer — was .dashboard-footer */
+    .pg_ftr {
+      font-size: 11px;
+      color: #9aaac4;
+      text-align: center;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="p2_xwrp">
+
+    <!-- Header: obfuscated class names, same visible output -->
+    <div class="hdr_blk9">
+      <div>
+        <div class="zz_cn_lbl">Meridian Analytics Inc.</div>
+        <div class="zz_ct_sub">Enterprise Intelligence &amp; Data Solutions</div>
+      </div>
+      <div class="rmeta_k2">
+        <div class="p9q_lbl">FY2025 — Full Year Financial Report</div>
+        <div class="p9q_sub">Generated: 28 April 2026 &nbsp;|&nbsp; Confidential</div>
+      </div>
+    </div>
+
+    <!-- KPI cards: same data, scrambled class names -->
+    <div class="g4_krow">
+
+      <div class="g4_kcrd">
+        <div class="lx_hd">Total Annual Revenue</div>
+        <div class="lx_vl">$48.7M</div>
+        <div class="lx_dt u7pos">+14.2% vs FY2024</div>
+      </div>
+
+      <div class="g4_kcrd">
+        <div class="lx_hd">Blended Profit Margin</div>
+        <div class="lx_vl">31.4%</div>
+        <div class="lx_dt u7pos">+3.1 pp vs FY2024</div>
+      </div>
+
+      <div class="g4_kcrd">
+        <div class="lx_hd">Q4 Revenue</div>
+        <div class="lx_vl">$14.1M</div>
+        <div class="lx_dt u7pos">+8.7% vs Q3</div>
+      </div>
+
+      <div class="g4_kcrd">
+        <div class="lx_hd">Active Business Segments</div>
+        <div class="lx_vl">5</div>
+        <div class="lx_dt u7pos">+1 new segment</div>
+      </div>
+
+    </div>
+
+    <!-- Main "table" card: the <table> element is gone, replaced by a CSS-grid div -->
+    <div class="tc_outer_xf">
+      <div class="tc_topbar">
+        <div>
+          <div class="n8_ttl">Quarterly Revenue by Business Segment</div>
+          <div class="n8_sub">All figures in USD millions (M) unless otherwise stated</div>
+        </div>
+        <span class="n8_bdg">FY2025</span>
+      </div>
+
+      <!--
+        .xk7f2 is a CSS grid that mimics a table visually.
+        There is no <table>, no <thead>, no <tbody>, no <th>, no <td>.
+        BeautifulSoup finds nothing. A human (or vision model) sees a
+        perfectly normal-looking data table.
+      -->
+      <div class="xk7f2">
+
+        <!-- "Header row" — 8 div cells acting as column headers -->
+        <div class="a9z_th">Business Segment</div>
+        <div class="a9z_th b2nr">Q1 Revenue</div>
+        <div class="a9z_th b2nr">Q2 Revenue</div>
+        <div class="a9z_th b2nr">Q3 Revenue</div>
+        <div class="a9z_th b2nr">Q4 Revenue</div>
+        <div class="a9z_th b2nr">Annual Total</div>
+        <div class="a9z_th b2nr">Profit Margin</div>
+        <div class="a9z_th b2nr">YoY Growth</div>
+
+        <!-- Row 1 — Cloud Platform Services (odd row, no stripe) -->
+        <div class="qr_drow">
+          <div class="f3_td w1_sn">Cloud Platform Services</div>
+          <div class="f3_td b2nr r9mw_a">$4.20M</div>
+          <div class="f3_td b2nr r9mw_b">$4.85M</div>
+          <div class="f3_td b2nr r9mw_c">$5.10M</div>
+          <div class="f3_td b2nr r9mw_d">$5.60M</div>
+          <div class="f3_td b2nr">$19.75M</div>
+          <div class="f3_td b2nr m_j9h">38.2%</div>
+          <div class="f3_td b2nr yw_gp">+22.4%</div>
+        </div>
+
+        <!-- Row 2 — Enterprise Consulting (even row, zebra stripe) -->
+        <div class="qr_drow ev_stripe">
+          <div class="f3_td w1_sn">Enterprise Consulting</div>
+          <div class="f3_td b2nr r9mw_a">$2.30M</div>
+          <div class="f3_td b2nr r9mw_b">$2.55M</div>
+          <div class="f3_td b2nr r9mw_c">$2.40M</div>
+          <div class="f3_td b2nr r9mw_d">$2.75M</div>
+          <div class="f3_td b2nr">$10.00M</div>
+          <div class="f3_td b2nr m_j9m">27.5%</div>
+          <div class="f3_td b2nr yw_gp">+9.8%</div>
+        </div>
+
+        <!-- Row 3 — Data Licensing (odd row) -->
+        <div class="qr_drow">
+          <div class="f3_td w1_sn">Data Licensing</div>
+          <div class="f3_td b2nr r9mw_a">$1.50M</div>
+          <div class="f3_td b2nr r9mw_b">$1.70M</div>
+          <div class="f3_td b2nr r9mw_c">$1.65M</div>
+          <div class="f3_td b2nr r9mw_d">$1.90M</div>
+          <div class="f3_td b2nr">$6.75M</div>
+          <div class="f3_td b2nr m_j9h">44.1%</div>
+          <div class="f3_td b2nr yw_gp">+5.3%</div>
+        </div>
+
+        <!-- Row 4 — Managed Security (even row, zebra stripe) -->
+        <div class="qr_drow ev_stripe">
+          <div class="f3_td w1_sn">Managed Security</div>
+          <div class="f3_td b2nr r9mw_a">$1.10M</div>
+          <div class="f3_td b2nr r9mw_b">$1.25M</div>
+          <div class="f3_td b2nr r9mw_c">$1.35M</div>
+          <div class="f3_td b2nr r9mw_d">$1.55M</div>
+          <div class="f3_td b2nr">$5.25M</div>
+          <div class="f3_td b2nr m_j9m">29.3%</div>
+          <div class="f3_td b2nr yw_gp">+18.6%</div>
+        </div>
+
+        <!-- Row 5 — AI Solutions (odd row) -->
+        <div class="qr_drow">
+          <div class="f3_td w1_sn">AI Solutions <span style="font-size:11px;color:#6b7a99;">(new)</span></div>
+          <div class="f3_td b2nr r9mw_a">$0.80M</div>
+          <div class="f3_td b2nr r9mw_b">$1.40M</div>
+          <div class="f3_td b2nr r9mw_c">$2.25M</div>
+          <div class="f3_td b2nr r9mw_d">$2.50M</div>
+          <div class="f3_td b2nr">$6.95M</div>
+          <div class="f3_td b2nr m_j9l">18.7%</div>
+          <div class="f3_td b2nr yw_gp">+210.0%</div>
+        </div>
+
+        <!-- Totals row -->
+        <div class="qr_drow">
+          <div class="f3_td w1_sn tot_r">TOTAL</div>
+          <div class="f3_td b2nr r9mw_a tot_r">$9.90M</div>
+          <div class="f3_td b2nr r9mw_b tot_r">$11.75M</div>
+          <div class="f3_td b2nr r9mw_c tot_r">$12.75M</div>
+          <div class="f3_td b2nr r9mw_d tot_r">$14.30M</div>
+          <div class="f3_td b2nr tot_r">$48.70M</div>
+          <div class="f3_td b2nr m_j9m tot_r">31.4%</div>
+          <div class="f3_td b2nr yw_gp tot_r">+14.2%</div>
+        </div>
+
+      </div><!-- /.xk7f2 -->
+    </div><!-- /.tc_outer_xf -->
+
+    <div class="pg_ftr">
+      Meridian Analytics Inc. &nbsp;&bull;&nbsp;
+      Internal Use Only — Do Not Distribute &nbsp;&bull;&nbsp;
+      Fiscal Year ends 31 December &nbsp;&bull;&nbsp;
+      All figures are unaudited estimates
+    </div>
+
+  </div><!-- /.p2_xwrp -->
+</body>
+</html>
